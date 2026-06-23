@@ -1,0 +1,89 @@
+
+    <div class="answer-card" [class.best-match]="isBestMatch" [class.expanded]="isExpanded()" (click)="toggleExpand()" style="cursor:pointer;">
+      @if (isBestMatch) {
+        <span class="badge">Best Match</span>
+      }
+
+      <!-- Toggle arrow on the right side -->
+      <button class="toggle-btn" (click)="$event.stopPropagation(); toggleExpand()" [title]="isExpanded() ? 'Collapse details' : 'Expand details'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+             [class.rotated]="isExpanded()">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+
+      <h3 class="question">{{ result.item.question }}</h3>
+
+      <p class="answer" [innerHTML]="highlightedAnswer"></p>
+
+    
+
+      <!-- Expandable Details Section -->
+      @if (isExpanded()) {
+        <div class="details-section">
+          <div class="divider"></div>
+
+          <!-- Example -->
+          @if (result.item.answer) {
+            <div class="detail-block">
+              <h4 class="detail-title">
+                Answer
+              </h4>
+              <p class="detail-text">{{ result.item.answer }}</p>
+            </div>
+          }
+
+          <!-- Example -->
+          @if (result.item.example) {
+            <div class="detail-block">
+              <h4 class="detail-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="detail-icon">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                Example
+              </h4>
+              <p class="detail-text">{{ result.item.example }}</p>
+            </div>
+          }
+
+          <!-- Code Snippet -->
+          @if (result.item.codeSnippet) {
+            <div class="detail-block">
+              <h4 class="detail-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="detail-icon">
+                  <polyline points="16 18 22 12 16 6"/>
+                  <polyline points="8 6 2 12 8 18"/>
+                </svg>
+                Code Snippet
+              </h4>
+              <pre class="code-block"><code>{{ result.item.codeSnippet }}</code></pre>
+            </div>
+          }
+
+          <!-- Steps to Execute -->
+          @if (result.item.steps && result.item.steps.length > 0) {
+            <div class="detail-block">
+              <h4 class="detail-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="detail-icon">
+                  <line x1="8" y1="6" x2="21" y2="6"/>
+                  <line x1="8" y1="12" x2="21" y2="12"/>
+                  <line x1="8" y1="18" x2="21" y2="18"/>
+                  <line x1="3" y1="6" x2="3.01" y2="6"/>
+                  <line x1="3" y1="12" x2="3.01" y2="12"/>
+                  <line x1="3" y1="18" x2="3.01" y2="18"/>
+                </svg>
+                Steps to Execute
+              </h4>
+              <ol class="steps-list">
+                @for (step of result.item.steps; track step) {
+                  <li>{{ step }}</li>
+                }
+              </ol>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  
